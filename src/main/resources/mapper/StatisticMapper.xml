@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.zytjcyj.mapper.StatisticsMapper">
+
+    <select id="queryStaticLogs" resultType="statisticsEntity">
+        select ReadRoomID readRoomId,count(ID)peopleNums  from consumeLogs where to_days(InTime)=to_days(now()) group by ReadRoomID
+    </select>
+    <insert id="addStaticlogs" parameterType="statisticsEntity" useGeneratedKeys="true" keyProperty="ID">
+       insert into  statistics(ReadRoomID, PeopleNums, Year, Month, Day) values (#{readRoomId},#{peopleNums},#{year},#{month},#{day})
+    </insert>
+    <select id="queryChart" resultType="statisticsEntity">
+        select month ,sum(PeopleNums) as peopleNums  from statistics where year=${year} group by month
+    </select>
+</mapper>

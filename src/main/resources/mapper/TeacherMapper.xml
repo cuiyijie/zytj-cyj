@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.zytjcyj.mapper.TeachersMapper">
+    <select id="queryAllTeacher" resultType="teacherssEntity">
+        SELECT * from teacherss
+    </select>
+
+    <select id="querAllTeacherFy" resultType="teacherssEntity" parameterType="teacherssEntity">
+        SELECT * from teacherss
+        <where>
+            <if test="name!=null and name!='' ">Name LIKE"%"#{name}"%"</if>
+
+        </where>
+        limit #{page},#{rows}
+    </select>
+    <select id="queryAllTeachCount" resultType="java.lang.Integer" parameterType="teacherssEntity">
+        SELECT count(*) FROM teacherss
+        <where>
+            <if test="name!=null and name!='' ">Name LIKE"%"#{name}"%"</if>
+
+        </where>
+    </select>
+
+    <insert id="addTeacher" parameterType="teacherssEntity" keyProperty="id" useGeneratedKeys="true">
+
+        insert into teacherss(CardNo,Name,Sex) values (#{cardNo},#{name},#{sex})
+
+    </insert>
+    <update id="updateTeacher" parameterType="teacherssEntity" >
+
+        update teacherss set Name=#{name},Sex=#{sex} where ID=#{id}
+    </update>
+    <delete id="deleteTeacher" parameterType="java.lang.Integer">
+        DELETE  FROM  teacherss WHERE ID=#{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.zytjcyj.mapper.ConsumelogsMapper">
+
+    <select id="queryAllConlog" resultType="consumelogsEntity">
+        select * from  consumelogs
+    </select>
+
+  <insert id="addConsumeLogs" parameterType="consumelogsEntity" useGeneratedKeys="true" keyProperty="id">
+      insert into  consumelogs(CardNo,ReadRoomID,InTime,Status) values (#{cardNo},#{readRoomId},#{inTime},#{status});
+  </insert>
+  <update id="updateConsumeLogs" parameterType="consumelogsEntity">
+      update consumeLogs set OutTime=#{outTime},Status=0 where CardNo=#{cardNo} and Status=1
+  </update>
+
+    <select id="queryAllConsumeLogFy" resultType="consumelogsEntity" parameterType="consumelogsEntity">
+        SELECT * from consumelogs
+        <where>
+            <if test="cardNo!=null and cardNo!='' ">CardNo=#{cardNo}</if>
+        </where>
+        limit #{page},#{rows}
+    </select>
+    <select id="queryAllConsumeLogCount" resultType="java.lang.Integer" parameterType="consumelogsEntity">
+        SELECT count(*) FROM consumelogs
+        <where>
+            <if test="cardNo!=null and cardNo!='' ">CardNo=#{cardNo}</if>
+
+        </where>
+    </select>
+
+</mapper>

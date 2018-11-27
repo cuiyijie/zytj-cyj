@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.zytjcyj.mapper.StudentMapper">
+
+    <select id="queryAllStudent" resultType="studentsEntity">
+        SELECT *
+        from students
+    </select>
+    <select id="queryStuByName" resultType="studentsEntity" parameterType="com.cyj.zytjcyj.entity.StudentPage">
+        SELECT * from students
+        <where>
+            <if test="name!=null and name!='' ">Name LIKE"%"#{name}"%"</if>
+            
+        </where>
+        limit #{page},#{rows}
+    </select>
+    <select id="queryStuCount" resultType="java.lang.Integer" parameterType="com.cyj.zytjcyj.entity.StudentPage">
+        SELECT count(*) FROM students
+        <where>
+            <if test="name!=null and name!='' ">Name LIKE"%"#{name}"%"</if>
+
+        </where>
+    </select>
+
+    <insert id="addStu" parameterType="studentsEntity" keyProperty="id" useGeneratedKeys="true">
+
+        insert into students(CardNo,Name,Sex,MembershipID,StuNo) values (#{cardNo},#{name},#{sex},#{membershipId},#{stuNo})
+
+    </insert>
+    <update id="updateStu" parameterType="studentsEntity" >
+
+        update students set Name=#{name},Sex=#{sex} where ID=#{id}
+    </update>
+    <delete id="deleteStu" parameterType="java.lang.Integer">
+        DELETE  FROM  students WHERE ID=#{id}
+    </delete>
+
+
+
+</mapper>
